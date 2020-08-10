@@ -1,4 +1,7 @@
 :root {
+  --purple-darker: rgb(132, 8, 126);
+  --white: white;
+
   --primary-highlight: #84087e;
   --primary-color: #515151;
   --primary-bg: white;
@@ -17,6 +20,11 @@ body,
   font-family: "Rubik", "Ubuntu", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+a,
+button {
+  text-decoration: none;
 }
 
 code {
