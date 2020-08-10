@@ -4,7 +4,9 @@ import styled from "styled-components";
 export const FooterWrapper = styled.footer`
   width: 90%;
 
-  span {
+  span,
+  a {
+    font-size: 0.8rem;
     color: ${(props) => props.theme.bg};
   }
 `;
