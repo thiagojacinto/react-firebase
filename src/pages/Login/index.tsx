@@ -8,9 +8,9 @@ import { Link } from "react-router-dom";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 
-const LoginWrapper = styled.main`
-  width: 100vw;
-  height: 100vh;
+export const LoginWrapper = styled.main`
+  width: 100%;
+  height: 100%;
 
   font-size: large;
   font-weight: 500;
@@ -23,10 +23,16 @@ const LoginWrapper = styled.main`
   section {
     grid-area: main;
 
+    overflow-y: scroll;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
+
+    & form {
+      width: 60%;
+    }
   }
 
   section fieldset {
@@ -35,15 +41,15 @@ const LoginWrapper = styled.main`
 
     & legend {
       color: ${(props) => props.theme.highlight};
-      font: 500 "Rubik";
+      font-weight: 500;
       font-size: 4.75rem;
-      padding: 1.6rem 0;
+      padding: 10% 0;
     }
 
     & span {
       color: ${(props) => props.theme.color};
       display: block;
-      margin-bottom: 4.75rem;
+      margin-bottom: 10%;
     }
 
     & span a {
@@ -51,7 +57,7 @@ const LoginWrapper = styled.main`
     }
 
     & button {
-      float: right;
+      width: 100%;
     }
   }
 
@@ -64,6 +70,11 @@ const LoginWrapper = styled.main`
     grid-template-rows: 1fr;
     grid-template-columns: 60% 1fr;
     grid-template-areas: "main aside";
+
+    section fieldset button {
+      width: auto;
+      float: right;
+    }
   }
 `;
 
