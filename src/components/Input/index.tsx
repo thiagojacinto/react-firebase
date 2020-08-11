@@ -11,7 +11,8 @@ const InputWrapper = styled.div`
   flex-direction: column;
 
   label {
-    font: 500 Rubik 1.25rem;
+    font-weight: 500;
+    font-size: 1.85rem;
     color: ${(props) => props.theme.color};
     padding-bottom: 1.8rem;
   }
