@@ -12,7 +12,7 @@ const AsideWrapper = styled.aside`
   background-color: var(--purple-darker);
 
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
 
@@ -25,7 +25,11 @@ const AsideWrapper = styled.aside`
     font-weight: 500;
     font-size: 3.063rem;
     color: var(--white);
-    padding: 0 4rem;
+    padding: 0 10%;
+  }
+
+  @media (min-width: 700px) {
+    flex-direction: column;
   }
 `;
 
@@ -33,7 +37,9 @@ interface QuoteAside {
   quote?: string;
 }
 
-export const Aside: React.FC<QuoteAside> = ({ quote }) => {
+export const Aside: React.FC<QuoteAside> = ({
+  quote = "Inovação orientada por dados.",
+}) => {
   return (
     <AsideWrapper>
       <img src={Logo} alt="DATABIZZ LOGO" />
