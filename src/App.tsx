@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
+import Register from "./pages/Register";
 
 const defaultTheme = {
   color: "var(--primary-color)",
@@ -18,7 +20,13 @@ function App() {
             <Login />
           </Route>
 
-          <Route path="/sign-up">{/* SIGN UP PAGE */}</Route>
+          <Route path="/cadastro">
+            <Register />
+          </Route>
+
+          <Route path="*">
+            <NotFound />
+          </Route>
         </Switch>
       </BrowserRouter>
     </ThemeProvider>
