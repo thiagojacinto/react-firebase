@@ -4,6 +4,7 @@ import { ThemeProvider } from "styled-components";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
+import Mural from "./pages/Mural";
 
 const defaultTheme = {
   color: "var(--primary-color)",
@@ -22,6 +23,10 @@ function App() {
 
           <Route path="/cadastro">
             <Register />
+          </Route>
+
+          <Route path="/comentarios/:usuario">
+            <Mural />
           </Route>
 
           <Route path="*">
