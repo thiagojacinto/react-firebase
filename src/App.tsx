@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
+
+import PrivateRoute from "./context/PrivateRoute";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
@@ -25,9 +27,9 @@ function App() {
             <Register />
           </Route>
 
-          <Route path="/comentarios/:usuario">
+          <PrivateRoute path="/comentarios/:usuarioId">
             <Mural />
-          </Route>
+          </PrivateRoute>
 
           <Route path="*">
             <NotFound />
