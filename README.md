@@ -1,5 +1,6 @@
 # :test_tube: React + :fire: Firebase solutions
-React App that uses Firebase solutions of Authentication and Database
+React App that uses Firebase solutions of Authentication, Database & Hosting. 
+Deploy: :white_check_mark: [Live demo](https://thiagojacinto-at-databizz.firebaseapp.com/)
 
 ## Instructions
 
