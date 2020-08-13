@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import firebase from "../../firebase";
 
 export const Header = styled.header`
   color: ${(props) => props.theme.color};
@@ -46,18 +47,18 @@ interface HeaderProps {
   usuario: string;
 }
 
-export const Topbar: React.FC<HeaderProps> = ({ time, programa, usuario }) => {
+export const Topbar: React.FC<HeaderProps> = ({ programa, time, usuario }) => {
   return (
     <Header>
       <section>
-        <h4>{time}</h4>
-        <h1>{programa}</h1>
+        <h4>{programa}</h4>
+        <h1>{time}</h1>
       </section>
 
       <div className="commands">
         <h3>{usuario}</h3>
         <Link to="/">
-          <p>Sair</p>
+          <p onClick={() => firebase.auth().signOut()}>Sair</p>
         </Link>
       </div>
     </Header>
