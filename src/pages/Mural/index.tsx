@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+
+import firebase from "../../firebase";
+import "firebase/firestore";
 
 import MainContent from "../../components/MainContent";
 import Aside from "../../components/Aside";
 import Button from "../../components/Button";
 import { Topbar } from "../../components/Topbar";
 import { Comment } from "../../components/Comment";
-
+import { AuthUserContext } from "../../context/AuthProvider";
 export const MuralWrapper = styled.main`
   width: 92%;
   height: 150vh;
@@ -88,18 +90,43 @@ export const MuralWrapper = styled.main`
 `;
 
 export const Mural: React.FC = () => {
-  let { usuario }: { usuario: string } = useParams();
+  const authContext = useContext(AuthUserContext);
+  let usuarioId = authContext.usuarioLogado?.uid;
+
+  let [usuarios, setUsuarios] = React.useState();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const database = firebase.firestore();
+      await database
+        .collection("Usuarios")
+        .doc(usuarioId)
+        .get()
+        .then((res) => setUsuarios(res.data()))
+        .catch((err) => console.error);
+
+      console.log(usuarios);
+    };
+    getUser();
+  }, []);
 
   const ipsum = [
     "Mussum Ipsum, cacilds vidis litro abertis. Mé faiz elementum girarzis, nisi eros vermeio. Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Admodum accumsan disputationi eu sit. Vide electram sadipscing et per. Si num tem leite então bota uma pinga aí cumpadi!",
     "Aenean aliquam molestie leo, vitae iaculis nisl. Diuretics paradis aliquet nunc non turpis scelerisque, eget. Todo mundo vê os porris num copo é motivis de denguis. Praesent vel viverra nisi. Mauris que eu tomo, mas ninguém vê os tombis que eu levo!",
-    "Posuere libero varius. Nullam a nisl ut ante blandit hendrerit.  Aenean sit amet nisi. Nullam volutpat risus nec leo commodo, ut  interdum diam laoreet. Sed non consequat odio. Quem manda na minha  terra sou euzis! Delegadis gente finis, bibendum egestas arcu  ut est.",
+    "Posuere libero varius. Nullam a nisl ut ante blandit hendrerit.  Aenean sit amet nisi. Nullam volutpat risus nec leo commodo, ut  interdum diam laoreet. Sed non consequat odio. Quem manda na minha  terra sou euzis! Delegadis gente finis, bibendum egestas arcu ut est.",
   ];
 
   return (
     <MuralWrapper>
       <MainContent>
-        <Topbar programa="Databizz" time="Negócios 2020" usuario={usuario} />
+        <Topbar
+          // programa={usuario !== {} ? usuario?.programa : ""}
+          // time={usuario?.time}
+          // usuario={usuario?.name}
+          programa="Negócios 2020"
+          time="Databizz"
+          usuario={`${usuarioId}`}
+        />
         <form>
           <fieldset>
             <legend>Comentários</legend>
