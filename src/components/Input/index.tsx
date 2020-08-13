@@ -27,18 +27,29 @@ const InputWrapper = styled.div`
 interface InputType {
   labelName: string;
   type: string;
-  onchange?: (event: React.ChangeEvent<HTMLInputElement>) => {};
+  onchange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Input: React.FC<InputType> = ({
   labelName,
   type,
   onchange = undefined,
+  ...rest
 }) => {
   return (
     <InputWrapper>
       <label htmlFor={type}>{labelName}</label>
-      <input type={type} name={type} id={type} onChange={onchange} />
+      {type === "password" ? (
+        <input
+          type={type}
+          name={type}
+          id={type}
+          onChange={onchange}
+          autoComplete="current-password"
+        />
+      ) : (
+        <input type={type} name={type} id={type} onChange={onchange} />
+      )}
     </InputWrapper>
   );
 };
