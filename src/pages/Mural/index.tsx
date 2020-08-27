@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
 import firebase from "../../firebase";
@@ -89,43 +89,77 @@ export const MuralWrapper = styled.main`
   }
 `;
 
+type Usuario = {
+  name: string;
+  programa: string;
+  time: string;
+};
+
+type Autor = {
+  id: string;
+  nome: string;
+};
+
+type Comentario = {
+  conteúdo: string;
+  autor: Autor;
+  createdAt: number;
+};
+
 export const Mural: React.FC = () => {
   const authContext = useContext(AuthUserContext);
-  let usuarioId = authContext.usuarioLogado?.uid;
+  let [comments, setComments] = React.useState<Array<Comentario | undefined>>(
+    []
+  );
+  let [usuario, setUsuario] = React.useState({} as Usuario);
 
-  let [usuarios, setUsuarios] = React.useState();
+  const handleComments = (usuario: any) => {
+    if (usuario?.programa === undefined) return;
 
-  useEffect(() => {
-    const getUser = async () => {
-      const database = firebase.firestore();
-      await database
-        .collection("Usuarios")
-        .doc(usuarioId)
-        .get()
-        .then((res) => setUsuarios(res.data()))
-        .catch((err) => console.error);
+    const store = firebase.firestore();
+    store
+      .collection("Programas")
+      .doc("negocios-2020")
+      .collection("Times")
+      .doc(usuario?.time)
+      .collection("Comentários")
+      .orderBy("createdAt", "desc")
+      .limit(5)
+      .get()
+      .then((comentarios) => {
+        setComments([]);
+        comentarios.forEach((comentario) => {
+          const novoComentario = comentario.data();
+          // console.log(novoComentario);  // DEBUG
+          setComments((prev) => [...prev, novoComentario as Comentario]);
+        });
+      });
+  };
 
-      console.log(usuarios);
-    };
-    getUser();
-  }, []);
+  React.useEffect(() => {
+    let idUsuario = authContext.usuarioLogado?.uid;
+    if (idUsuario === undefined) return;
 
-  const ipsum = [
-    "Mussum Ipsum, cacilds vidis litro abertis. Mé faiz elementum girarzis, nisi eros vermeio. Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Admodum accumsan disputationi eu sit. Vide electram sadipscing et per. Si num tem leite então bota uma pinga aí cumpadi!",
-    "Aenean aliquam molestie leo, vitae iaculis nisl. Diuretics paradis aliquet nunc non turpis scelerisque, eget. Todo mundo vê os porris num copo é motivis de denguis. Praesent vel viverra nisi. Mauris que eu tomo, mas ninguém vê os tombis que eu levo!",
-    "Posuere libero varius. Nullam a nisl ut ante blandit hendrerit.  Aenean sit amet nisi. Nullam volutpat risus nec leo commodo, ut  interdum diam laoreet. Sed non consequat odio. Quem manda na minha  terra sou euzis! Delegadis gente finis, bibendum egestas arcu ut est.",
-  ];
+    const store = firebase.firestore();
+    store
+      .collection("Usuarios")
+      .doc(idUsuario)
+      .get()
+      .then((res) => {
+        const userData = res.data();
+
+        setUsuario(userData as Usuario);
+        handleComments(userData as Usuario);
+      });
+  }, [authContext]);
 
   return (
     <MuralWrapper>
       <MainContent>
         <Topbar
-          // programa={usuario !== {} ? usuario?.programa : ""}
-          // time={usuario?.time}
-          // usuario={usuario?.name}
-          programa="Negócios 2020"
-          time="Databizz"
-          usuario={`${usuarioId}`}
+          nome={usuario?.name}
+          time={usuario?.time}
+          programa={usuario?.programa}
         />
         <form>
           <fieldset>
@@ -141,9 +175,17 @@ export const Mural: React.FC = () => {
 
       <section className="mural__comments">
         <h1>Últimos comentários</h1>
-        <Comment autor="Autor 1" conteudo={ipsum[0]} />
-        <Comment autor="Autor 2" conteudo={ipsum[1]} />
-        <Comment autor="Autor 3" conteudo={ipsum[2]} />
+
+        {comments.length > 1 &&
+          comments.map((comment) => {
+            return (
+              <Comment
+                key={comments.indexOf(comment)}
+                autor={comment?.autor.nome}
+                conteudo={comment?.conteúdo}
+              />
+            );
+          })}
       </section>
     </MuralWrapper>
   );
