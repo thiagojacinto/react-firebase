@@ -11,8 +11,8 @@ export const CommentWrapper = styled.article`
 `;
 
 interface CommentProps {
-  autor: string;
-  conteudo: string;
+  autor: string | undefined;
+  conteudo: string | undefined;
 }
 
 export const Comment: React.FC<CommentProps> = ({ autor, conteudo }) => {
