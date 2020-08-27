@@ -19,7 +19,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   let [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((user: any) => {
+    firebase.auth().onAuthStateChanged((user) => {
       setUsuarioLogado(user);
       setLoading(false);
     });
