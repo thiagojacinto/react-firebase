@@ -115,7 +115,7 @@ export const Login: React.FC = () => {
       .signInWithEmailAndPassword(credenciais.email, credenciais.password)
       .then((result) => {
         authContext.setUsuarioLogado(result);
-        console.table(result.user?.providerData); // DEBUG
+        // console.table(result.user?.providerData); // DEBUG
         history.push(`/comentarios/${result.user?.uid}`);
       })
       .catch((error) => {
