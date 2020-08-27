@@ -41,13 +41,19 @@ export const Header = styled.header`
   }
 `;
 
-interface HeaderProps {
+type HeaderProps = {
   time: string;
   programa: string;
-  usuario: string;
-}
+  nome: string;
+};
 
-export const Topbar: React.FC<HeaderProps> = ({ programa, time, usuario }) => {
+export const Topbar: React.FC<HeaderProps> = ({ nome, time, programa }) => {
+  const handleLogout = ():
+    | ((event: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => void)
+    | undefined => {
+    return () => firebase.auth().signOut();
+  };
+
   return (
     <Header>
       <section>
@@ -56,9 +62,9 @@ export const Topbar: React.FC<HeaderProps> = ({ programa, time, usuario }) => {
       </section>
 
       <div className="commands">
-        <h3>{usuario}</h3>
+        <h3>{nome}</h3>
         <Link to="/">
-          <p onClick={() => firebase.auth().signOut()}>Sair</p>
+          <p onClick={handleLogout()}>Sair</p>
         </Link>
       </div>
     </Header>
